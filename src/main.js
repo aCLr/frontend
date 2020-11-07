@@ -8,6 +8,7 @@ import lineClamp from "vue-line-clamp";
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(lineClamp);
+
 Vue.prototype.$vueEventBus = new Vue();
 
 new Vue({
