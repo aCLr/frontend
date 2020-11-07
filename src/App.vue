@@ -1,29 +1,20 @@
 <template>
-  <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        Project name
-      </div>
-    </v-app-bar>
-
+  <v-app id="inspire">
+    <TopBar></TopBar>
+    <Navigation app />
     <v-main>
-      <HelloWorld />
+      <Content />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
+import Navigation from "@/components/Navigation";
+import Content from "@/components/Content";
+import TopBar from "@/components/TopBar";
 
 export default {
   name: "App",
-
-  components: {
-    HelloWorld
-  },
-
-  data: () => ({
-    //
-  })
+  components: { Navigation, Content, TopBar }
 };
 </script>
