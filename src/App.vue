@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <TopBar></TopBar>
-    <Navigation app />
+    <Navigation />
     <v-main>
       <Content />
     </v-main>

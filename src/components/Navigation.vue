@@ -1,5 +1,9 @@
 <template>
-  <v-navigation-drawer app>
+  <v-navigation-drawer
+    app
+    :temporary="this.getDrawerForSize()"
+    v-model="drawer"
+  >
     <v-list>
       <v-list-item link>
         <v-list-item-content>
@@ -46,8 +50,8 @@ export default {
   name: "Navigation",
   components: { SearchSource },
   data: () => ({
-    drawer: null,
-    sources: []
+    sources: [],
+    drawer: false
   }),
   methods: {
     showSourceContent: function(source) {
@@ -55,9 +59,26 @@ export default {
     },
     showAllSourcesContent: function() {
       this.$vueEventBus.$emit("showAllSourcesContent");
+    },
+    toggleDrawer: function() {
+      this.drawer = !this.drawer;
+    },
+    getDrawerForSize: function() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "lg":
+          return false;
+        case "xl":
+          return false;
+        default:
+          return true;
+      }
     }
   },
+  created() {
+    this.$vueEventBus.$on("toggleNavigation", this.toggleDrawer);
+  },
   mounted() {
+    this.drawer = !this.getDrawerForSize();
     this.$http
       .get("http://127.0.0.1:8088/api/v1/sources/")
       .then(response => (this.sources = response.data));
