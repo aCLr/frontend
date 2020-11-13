@@ -71,6 +71,8 @@ export default {
       this.dialog = true;
       this.searching = true;
       this.search_results = (await this.makeSearchQuery()).data;
+      this.$vueEventBus.$emit("resetSources");
+      this.$vueEventBus.$emit("showAllSourcesContent");
       this.searching = false;
     },
     showSourceContent: function(source) {
