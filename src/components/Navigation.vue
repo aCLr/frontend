@@ -33,50 +33,40 @@
     </v-list>
 
     <v-divider></v-divider>
-
     <v-list>
-      <v-list-group v-for="(sources, kind) in sources" :key="kind">
-        <template v-slot:activator>
+      <SourceItem
+        :source="source"
+        :key="source.id"
+        v-for="source in sources"
+      ></SourceItem>
+    </v-list>
+    <template v-slot:append>
+      <v-divider></v-divider>
+      <v-list>
+        <v-list-item>
           <v-list-item-icon>
-            <v-icon>{{ getKindIcon(kind) }}</v-icon>
+            <v-icon>mdi-cog</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title v-text="kind"></v-list-item-title>
-          </v-list-item-content>
-        </template>
-
-        <v-list-item
-          v-for="source in sources"
-          :key="source.id"
-          link
-          @click="showSourceContent(source)"
-        >
-          <v-list-item-icon v-if="source.image">
-            <img :src="source.image" />
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ source.name }}</v-list-item-title>
+            <v-list-item-title>Settings</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-      </v-list-group>
-    </v-list>
+      </v-list>
+    </template>
   </v-navigation-drawer>
 </template>
 
 <script>
 import SearchSource from "@/components/SearchSource";
+import SourceItem from "@/components/SourceItem";
 export default {
   name: "Navigation",
-  components: { SearchSource },
+  components: { SourceItem, SearchSource },
   data: () => ({
-    sources: {},
+    sources: [],
     drawer: false
   }),
   methods: {
-    showSourceContent: function(source) {
-      this.$vueEventBus.$emit("showSourceContent", source.id);
-    },
     showStarredContent: function() {
       this.$vueEventBus.$emit("showStarredContent");
     },
@@ -85,14 +75,6 @@ export default {
     },
     toggleDrawer: function() {
       this.drawer = !this.drawer;
-    },
-    getKindIcon: function(kind) {
-      switch (kind) {
-        case "WEB":
-          return "mdi-web";
-        default:
-          return "";
-      }
     },
     getDrawerForSize: function() {
       switch (this.$vuetify.breakpoint.name) {
@@ -104,21 +86,10 @@ export default {
           return true;
       }
     },
-    groupSourcesByKind: function(sources) {
-      return sources.reduce(
-        (result, item) => ({
-          ...result,
-          [item.kind]: [...(result[item.kind] || []), item]
-        }),
-        {}
-      );
-    },
     loadSources: function() {
       this.$http
         .get("http://127.0.0.1:8088/api/v1/sources/")
-        .then(
-          response => (this.sources = this.groupSourcesByKind(response.data))
-        );
+        .then(response => (this.sources = response.data));
     }
   },
   created() {

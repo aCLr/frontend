@@ -21,14 +21,10 @@
                 </v-card-text>
               </template>
               <v-card-actions>
-                <span>{{ record.date }}</span>
                 <v-spacer></v-spacer>
                 <v-btn icon @click.stop="toggleStarred(record)">
                   <v-icon v-if="record.starred">mdi-star</v-icon>
                   <v-icon v-else>mdi-star-outline</v-icon>
-                </v-btn>
-                <v-btn icon @click.stop="bulkMarkAsRead(record)">
-                  <v-icon>mdi-transfer-down</v-icon>
                 </v-btn>
               </v-card-actions>
             </v-card>
