@@ -21,6 +21,15 @@
           <v-list-item-title>All</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+
+      <v-list-item link @click="showStarredContent">
+        <v-list-item-icon>
+          <v-icon>mdi-star</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Starred</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
 
     <v-divider></v-divider>
@@ -67,6 +76,9 @@ export default {
   methods: {
     showSourceContent: function(source) {
       this.$vueEventBus.$emit("showSourceContent", source.id);
+    },
+    showStarredContent: function() {
+      this.$vueEventBus.$emit("showStarredContent");
     },
     showAllSourcesContent: function() {
       this.$vueEventBus.$emit("showAllSourcesContent");
