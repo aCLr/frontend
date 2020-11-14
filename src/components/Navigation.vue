@@ -59,24 +59,29 @@
 <script>
 import SearchSource from "@/components/SearchSource";
 import SourceItem from "@/components/SourceItem";
+import { mapState } from "vuex";
 export default {
   name: "Navigation",
   components: { SourceItem, SearchSource },
+  computed: {
+    ...mapState({
+      sources: state => state.sources.sources
+    })
+  },
   data: () => ({
-    sources: [],
     drawer: false
   }),
   methods: {
-    showStarredContent: function() {
-      this.$vueEventBus.$emit("showStarredContent");
+    showStarredContent() {
+      this.$store.dispatch("records/changeQuery", "starred");
     },
-    showAllSourcesContent: function() {
-      this.$vueEventBus.$emit("showAllSourcesContent");
+    showAllSourcesContent() {
+      this.$store.dispatch("records/changeQuery", "all");
     },
-    toggleDrawer: function() {
+    toggleDrawer() {
       this.drawer = !this.drawer;
     },
-    getDrawerForSize: function() {
+    getDrawerForSize() {
       switch (this.$vuetify.breakpoint.name) {
         case "lg":
           return false;
@@ -86,15 +91,12 @@ export default {
           return true;
       }
     },
-    loadSources: function() {
-      this.$http
-        .get("http://127.0.0.1:8088/api/v1/sources/")
-        .then(response => (this.sources = response.data));
+    loadSources() {
+      this.$store.dispatch("sources/loadSources");
     }
   },
   created() {
     this.$vueEventBus.$on("toggleNavigation", this.toggleDrawer);
-    this.$vueEventBus.$on("resetSources", this.loadSources);
   },
   mounted() {
     this.drawer = !this.getDrawerForSize();

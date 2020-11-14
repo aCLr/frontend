@@ -59,20 +59,21 @@
 
 <script>
 import DOMPurify from "dompurify";
-import Vue from "vue";
+import { mapState } from "vuex";
 
 const limit = 12;
+
 export default {
   name: "Content",
   data: () => ({
-    records: [],
-    query: "all",
-    enableInfiniteScroll: false,
-    offset: 0,
     showFab: false
   }),
   computed: {
-    colsAmount: function() {
+    ...mapState({
+      records: state => state.records.records,
+      enableInfiniteScroll: state => state.records.enableInfiniteScroll
+    }),
+    colsAmount() {
       switch (this.$vuetify.breakpoint.name) {
         case "lg":
           return 4;
@@ -86,7 +87,7 @@ export default {
           return 12;
       }
     },
-    contendWidth: function() {
+    contendWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "lg":
           return 770;
@@ -98,44 +99,30 @@ export default {
     }
   },
   created() {
-    this.$vueEventBus.$on("showSourceContent", sourceId => {
-      this.onChangeQuery("all");
-      this.getSourceContent(sourceId);
-    });
-    this.$vueEventBus.$on("showAllSourcesContent", () => {
-      this.onChangeQuery("all");
-      this.getAllRecords();
-    });
-    this.$vueEventBus.$on("showStarredContent", () => {
-      this.onChangeQuery("starred");
-      this.getStarredRecords();
-    });
+    this.loadRecords();
   },
   methods: {
-    onChangeQuery: function(query) {
-      this.records = [];
-      this.query = query;
-      this.enableInfiniteScroll = true;
-      this.offset = 0;
+    changeQuery(query) {
+      this.$store.dispatch("records/changeQuery", query);
     },
-    onScroll: function(e) {
+    onScroll(e) {
       const top = window.pageYOffset || e.target.scrollTop || 0;
       this.showFab = top > 20;
     },
-    goToTop: function() {
+    goToTop() {
       this.$vuetify.goTo(0);
     },
-    getPreview: function(content) {
+    getPreview(content) {
       let span = document.createElement("span");
       span.innerHTML = content;
       return span.textContent || span.innerText;
     },
-    getSanitizedContent: function(content) {
+    getSanitizedContent(content) {
       return DOMPurify.sanitize(this.markLinksAsBlank(content), {
         ADD_ATTR: ["target"]
       });
     },
-    markLinksAsBlank: function(content) {
+    markLinksAsBlank(content) {
       let div = document.createElement("div");
       div.innerHTML = content;
       div.getElementsByTagName("a").forEach(e => {
@@ -143,81 +130,22 @@ export default {
       });
       return div.innerHTML;
     },
-    getStarredRecords: function() {
-      this.$http
-        .get("http://127.0.0.1:8088/api/v1/records/", {
-          params: { limit: limit, offset: this.offset, query: this.query }
-        })
-        .then(response => {
-          if (response.data.length === 0) {
-            this.enableInfiniteScroll = false;
-            return;
-          }
-          this.records = this.records.concat(...response.data);
-          setTimeout(() => (this.enableInfiniteScroll = true), 1000);
-        });
+    loadRecords(sourceId = null) {
+      this.$store.dispatch("records/loadRecords", { sourceId });
     },
-    getAllRecords: function() {
-      this.$http
-        .get("http://127.0.0.1:8088/api/v1/records/", {
-          params: { limit: limit, offset: this.offset, query: this.query }
-        })
-        .then(response => {
-          if (response.data.length === 0) {
-            this.enableInfiniteScroll = false;
-            return;
-          }
-          this.records = this.records.concat(...response.data);
-          setTimeout(() => (this.enableInfiniteScroll = true), 1000);
-        });
-    },
-    getSourceContent: function(sourceId) {
-      this.$http
-        .get("http://127.0.0.1:8088/api/v1/records/", {
-          params: {
-            limit: limit,
-            offset: this.offset,
-            source_id: sourceId,
-            query: this.query
-          }
-        })
-        .then(response => {
-          this.records = response.data;
-          setTimeout(() => (this.enableInfiniteScroll = true), 1000);
-        });
-    },
-    onBottomVisible: function() {
+    onBottomVisible() {
       if (!this.enableInfiniteScroll) {
         return;
       }
       this.offset += limit;
-      this.getAllRecords();
+      this.loadRecords();
     },
-    bulkMarkAsRead: function(record) {
-      this.$http
-        .post("http://127.0.0.1:8088/api/v1/records/mark_read", {
-          from_date: record.date
-        })
-        .then(response => {
-          console.log(response);
-        });
-    },
-    toggleStarred: function(record) {
-      this.$http
-        .post(`http://127.0.0.1:8088/api/v1/records/${record.id}`, {
-          starred: !record.starred
-        })
-        .then(response => {
-          Vue.set(
-            this.records,
-            this.records.findIndex(r => r.id === response.data.id),
-            response.data
-          );
-        });
+    toggleStarred(record) {
+      this.$store.dispatch("records/toggleStarred", {
+        recordId: record.id,
+        starred: !record.starred
+      });
     }
-  },
-  mounted() {
-    this.getAllRecords();
   }
 };
 </script>
@@ -227,6 +155,7 @@ export default {
 .v-card__title {
   word-break: normal;
 }
+
 .v-card__text >>> img {
   max-width: 100%;
 }

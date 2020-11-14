@@ -16,7 +16,10 @@ export default {
   props: ["source"],
   methods: {
     showSourceContent: function() {
-      this.$vueEventBus.$emit("showSourceContent", this.source.id);
+      this.$store.dispatch("records/loadRecords", {
+        sourceId: this.source.id,
+        replace: true
+      });
     }
   }
 };

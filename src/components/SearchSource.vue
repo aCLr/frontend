@@ -42,16 +42,20 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "SearchSource",
   data: () => ({
     query: "",
-    dialog: false,
-    search_results: [],
-    searching: false
+    dialog: false
   }),
   computed: {
-    colsAmount: function() {
+    ...mapState({
+      searching: state => state.sources.searching,
+      search_results: state => state.sources.search_results
+    }),
+    colsAmount() {
       switch (this.$vuetify.breakpoint.name) {
         case "lg":
           return 3;
@@ -67,22 +71,16 @@ export default {
     }
   },
   methods: {
-    search: async function() {
+    search() {
       this.dialog = true;
-      this.searching = true;
-      this.search_results = (await this.makeSearchQuery()).data;
-      this.$vueEventBus.$emit("resetSources");
-      this.$vueEventBus.$emit("showAllSourcesContent");
-      this.searching = false;
+      this.$store.dispatch("sources/searchSources", this.query);
     },
-    showSourceContent: function(source) {
-      this.$vueEventBus.$emit("showSourceContent", source.id);
-      this.dialog = false;
-    },
-    makeSearchQuery: async function() {
-      return await this.$http.post("http://127.0.0.1:8088/api/v1/sources/", {
-        origin: this.query
+    showSourceContent(source) {
+      this.$store.dispatch("records/loadRecords", {
+        sourceId: source.id,
+        replace: true
       });
+      this.dialog = false;
     }
   }
 };
