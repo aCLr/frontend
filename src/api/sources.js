@@ -1,12 +1,18 @@
 import axios from "axios";
 
 export default {
+  deleteSource(sourceId) {
+    return axios.delete(`api/v1/sources/${sourceId}`);
+  },
+  subscribeOnSource(sourceId) {
+    return axios.put(`api/v1/sources/${sourceId}`);
+  },
   loadSources() {
-    return axios.get("http://127.0.0.1:8088/api/v1/sources/");
+    return axios.get("api/v1/sources/");
   },
   makeSearchQuery(query) {
-    return axios.post("http://127.0.0.1:8088/api/v1/sources/", {
-      origin: query
+    return axios.get("api/v1/sources/search", {
+      params: { origin: query }
     });
   }
 };

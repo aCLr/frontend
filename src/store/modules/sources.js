@@ -30,11 +30,14 @@ const actions = {
         .catch(reject);
     });
   },
-  async searchSources({ commit, dispatch }, query) {
-    commit("startSearch");
-    const response = await sourcesApi.makeSearchQuery(query);
+  async deleteSource({ dispatch }, sourceId) {
+    await sourcesApi.deleteSource(sourceId);
     dispatch("loadSources");
     dispatch("records/loadRecords", {}, { root: true });
+  },
+  async searchSources({ commit }, query) {
+    commit("startSearch");
+    const response = await sourcesApi.makeSearchQuery(query);
     commit("finishSearch", response.data);
   }
 };

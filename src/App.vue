@@ -3,18 +3,17 @@
     <TopBar></TopBar>
     <Navigation />
     <v-main>
-      <Content />
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
 import Navigation from "@/components/Navigation";
-import Content from "@/components/Content";
 import TopBar from "@/components/TopBar";
 
 export default {
   name: "App",
-  components: { Navigation, Content, TopBar }
+  components: { Navigation, TopBar }
 };
 </script>

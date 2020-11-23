@@ -27,7 +27,7 @@
               :key="result.id"
               :cols="colsAmount"
             >
-              <v-card @click="showSourceContent(result)">
+              <v-card @click="showSourceContentPreview(result)">
                 <v-card-title>{{ result.name }}</v-card-title>
                 <v-card-subtitle
                   >({{ result.kind }}) {{ result.origin }}</v-card-subtitle
@@ -75,11 +75,13 @@ export default {
       this.dialog = true;
       this.$store.dispatch("sources/searchSources", this.query);
     },
-    showSourceContent(source) {
+    showSourceContentPreview(source) {
       this.$store.dispatch("records/loadRecords", {
         sourceId: source.id,
-        replace: true
+        replace: true,
+        preview: true
       });
+      this.$router.push({ name: "source_preview", params: { id: source.id } });
       this.dialog = false;
     }
   }

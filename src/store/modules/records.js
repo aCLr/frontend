@@ -45,13 +45,21 @@ const actions = {
     commit("changeQuery", query);
     return dispatch("loadRecords", { replace: true });
   },
-  loadRecords({ commit, state }, { sourceId = null, replace = false }) {
+  loadRecords(
+    { commit, state },
+    { sourceId = null, replace = false, preview = false }
+  ) {
     if (replace) {
       commit("resetOffset");
     }
     return new Promise((resolve, reject) => {
-      recordsApi
-        .getRecords(state.limit, state.offset, state.query, sourceId)
+      let meth = preview ? recordsApi.getRecordsPreview : recordsApi.getRecords;
+      meth({
+        limit: state.limit,
+        offset: state.offset,
+        query: state.query,
+        sourceId
+      })
         .then(response => {
           if (replace) {
             commit("resetRecords");

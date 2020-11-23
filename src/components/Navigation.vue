@@ -39,20 +39,23 @@
         :key="source.id"
         v-for="source in sources"
       ></SourceItem>
+
+      <v-menu
+        v-model="showNavContextMenu"
+        :position-x="contextMenuX"
+        :position-y="contextMenuY"
+        absolute
+        offset-y
+      >
+        <v-list>
+          <v-list-item @click="deleteSource()">
+            <v-list-item-title>
+              Delete
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-list>
-    <template v-slot:append>
-      <v-divider></v-divider>
-      <v-list>
-        <v-list-item>
-          <v-list-item-icon>
-            <v-icon>mdi-cog</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Settings</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </template>
   </v-navigation-drawer>
 </template>
 
@@ -65,13 +68,36 @@ export default {
   components: { SourceItem, SearchSource },
   computed: {
     ...mapState({
-      sources: state => state.sources.sources
+      sources: state => state.sources.sources,
+      navContextMenu: state => state.navContextMenu.show,
+      contextMenuX: state => state.navContextMenu.x,
+      contextMenuY: state => state.navContextMenu.y,
+      contextMenuSourceId: state => state.navContextMenu.sourceId
     })
   },
   data: () => ({
-    drawer: false
+    drawer: false,
+    showNavContextMenu: false
   }),
+  watch: {
+    showNavContextMenu(newValue) {
+      if (!newValue) {
+        this.$store.dispatch("navContextMenu/hideNavContextMenu");
+      }
+    },
+    navContextMenu(newValue) {
+      if (newValue) {
+        this.showNavContextMenu = true;
+      }
+    }
+  },
   methods: {
+    async deleteSource() {
+      await this.$store.dispatch(
+        "sources/deleteSource",
+        this.contextMenuSourceId
+      );
+    },
     showStarredContent() {
       this.$store.dispatch("records/changeQuery", "starred");
     },

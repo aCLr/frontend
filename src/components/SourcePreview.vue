@@ -1,5 +1,9 @@
 <template>
   <v-container>
+    <v-card max-width="100" flat class="source--description">
+      <v-card-title>{{ source }}</v-card-title>
+    </v-card>
+    <v-spacer></v-spacer>
     <v-row>
       <v-col v-for="record in records" :key="record.id" :cols="colsAmount">
         <v-dialog max-width="770">
@@ -66,6 +70,12 @@ const limit = 12;
 
 export default {
   name: "Content",
+  props: {
+    id: {
+      type: Object,
+      required: true
+    }
+  },
   data: () => ({
     showFab: false
   }),
@@ -74,6 +84,11 @@ export default {
       records: state => state.records.records,
       enableInfiniteScroll: state => state.records.enableInfiniteScroll
     }),
+    source() {
+      return this.$store.state.sources.search_results.find(
+        s => s.id === this.id
+      );
+    },
     colsAmount() {
       switch (this.$vuetify.breakpoint.name) {
         case "lg":
@@ -155,6 +170,10 @@ export default {
 .v-card__text,
 .v-card__title {
   word-break: normal;
+}
+
+.source--description {
+  margin-left: 100px;
 }
 
 .v-card__text >>> img {
