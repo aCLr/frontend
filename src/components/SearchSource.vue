@@ -81,7 +81,14 @@ export default {
         replace: true,
         preview: true
       });
-      this.$router.push({ name: "source_preview", params: { id: source.id } });
+      let route = "sourcePreview";
+      if (
+        this.$store.state.sources.sources.findIndex(f => f.id === source.id) >=
+        0
+      ) {
+        route = "sourceContent";
+      }
+      this.$router.push({ name: route, params: { sourceId: source.id } });
       this.dialog = false;
     }
   }

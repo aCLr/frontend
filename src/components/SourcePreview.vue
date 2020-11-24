@@ -1,7 +1,13 @@
 <template>
   <v-container>
-    <v-card max-width="100" flat class="source--description">
-      <v-card-title>{{ source }}</v-card-title>
+    <v-card flat class="source--description">
+      <v-card-title>{{ source.name }}</v-card-title>
+      <v-card-actions>
+        <v-btn @click="subscribe()" large>
+          Subscribe
+          <v-icon right>mdi-plus-circle</v-icon>
+        </v-btn>
+      </v-card-actions>
     </v-card>
     <v-spacer></v-spacer>
     <v-row>
@@ -69,10 +75,10 @@ import { mapState } from "vuex";
 const limit = 12;
 
 export default {
-  name: "Content",
+  name: "SourcePreview",
   props: {
-    id: {
-      type: Object,
+    sourceId: {
+      type: Number,
       required: true
     }
   },
@@ -85,9 +91,10 @@ export default {
       enableInfiniteScroll: state => state.records.enableInfiniteScroll
     }),
     source() {
-      return this.$store.state.sources.search_results.find(
-        s => s.id === this.id
+      let f = this.$store.state.sources.search_results.find(
+        s => s.id === this.sourceId
       );
+      return f;
     },
     colsAmount() {
       switch (this.$vuetify.breakpoint.name) {
@@ -114,16 +121,13 @@ export default {
       }
     }
   },
-  created() {
-    this.loadRecords();
-  },
   methods: {
-    changeQuery(query) {
-      this.$store.dispatch("records/changeQuery", query);
-    },
     onScroll(e) {
       const top = window.pageYOffset || e.target.scrollTop || 0;
       this.showFab = top > 20;
+    },
+    async subscribe() {
+      await this.$store.dispatch("sources/subscribe", this.source.id);
     },
     goToTop() {
       this.$vuetify.goTo(0);
@@ -146,15 +150,12 @@ export default {
       });
       return div.innerHTML;
     },
-    loadRecords(sourceId = null) {
-      this.$store.dispatch("records/loadRecords", { sourceId });
-    },
     onBottomVisible() {
       if (!this.enableInfiniteScroll) {
         return;
       }
       this.offset += limit;
-      this.loadRecords();
+      this.$store.dispatch("records/loadRecords");
     },
     toggleStarred(record) {
       this.$store.dispatch("records/toggleStarred", {

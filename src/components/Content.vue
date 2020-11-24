@@ -69,6 +69,16 @@ export default {
   data: () => ({
     showFab: false
   }),
+  beforeRouteEnter(to, from, next) {
+    next(vm =>
+      vm.$store.dispatch("records/loadRecords", { replace: true, ...to.params })
+    );
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.$store
+      .dispatch("records/loadRecords", { replace: true, ...to.params })
+      .then(next);
+  },
   computed: {
     ...mapState({
       records: state => state.records.records,
@@ -99,13 +109,7 @@ export default {
       }
     }
   },
-  created() {
-    this.loadRecords();
-  },
   methods: {
-    changeQuery(query) {
-      this.$store.dispatch("records/changeQuery", query);
-    },
     onScroll(e) {
       const top = window.pageYOffset || e.target.scrollTop || 0;
       this.showFab = top > 20;
@@ -131,15 +135,12 @@ export default {
       });
       return div.innerHTML;
     },
-    loadRecords(sourceId = null) {
-      this.$store.dispatch("records/loadRecords", { sourceId });
-    },
     onBottomVisible() {
       if (!this.enableInfiniteScroll) {
         return;
       }
       this.offset += limit;
-      this.loadRecords();
+      this.$store.dispatch("records/loadRecords");
     },
     toggleStarred(record) {
       this.$store.dispatch("records/toggleStarred", {

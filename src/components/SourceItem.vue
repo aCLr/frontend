@@ -2,6 +2,7 @@
   <v-list-item
     :key="source.id"
     link
+    :to="{ name: 'sourceContent', params: { sourceId: source.id } }"
     @click="showSourceContent(source)"
     @contextmenu="showContextMenu"
   >

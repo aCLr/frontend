@@ -5,12 +5,23 @@ export default new VueRouter({
   routes: [
     {
       path: "/",
-      name: "Content",
-      component: () => import("@/components/Content.vue")
+      redirect: { name: "content", params: { query: "all" } }
     },
     {
-      path: "/preview/:id",
-      name: "source_preview",
+      path: "/:query",
+      name: "content",
+      component: () => import("@/components/Content.vue"),
+      props: true
+    },
+    {
+      path: "/source/:sourceId",
+      name: "sourceContent",
+      component: () => import("@/components/Content.vue"),
+      props: true
+    },
+    {
+      path: "/preview/:sourceId",
+      name: "sourcePreview",
       component: () => import("@/components/SourcePreview.vue"),
       props: true
     }

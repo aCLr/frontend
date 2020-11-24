@@ -39,6 +39,11 @@ const actions = {
     commit("startSearch");
     const response = await sourcesApi.makeSearchQuery(query);
     commit("finishSearch", response.data);
+  },
+  async subscribe({ dispatch }, sourceId) {
+    await sourcesApi.subscribeOnSource(sourceId);
+    dispatch("loadSources");
+    dispatch("records/loadRecords", {}, { root: true });
   }
 };
 

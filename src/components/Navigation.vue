@@ -13,7 +13,7 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item link @click="showAllSourcesContent">
+      <v-list-item :to="{ name: 'content', params: { query: 'all' } }">
         <v-list-item-icon>
           <v-icon>mdi-inbox-arrow-down</v-icon>
         </v-list-item-icon>
@@ -22,7 +22,7 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item link @click="showStarredContent">
+      <v-list-item :to="{ name: 'content', params: { query: 'starred' } }">
         <v-list-item-icon>
           <v-icon>mdi-star</v-icon>
         </v-list-item-icon>
@@ -97,12 +97,6 @@ export default {
         "sources/deleteSource",
         this.contextMenuSourceId
       );
-    },
-    showStarredContent() {
-      this.$store.dispatch("records/changeQuery", "starred");
-    },
-    showAllSourcesContent() {
-      this.$store.dispatch("records/changeQuery", "all");
     },
     toggleDrawer() {
       this.drawer = !this.drawer;

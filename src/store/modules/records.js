@@ -5,7 +5,6 @@ const state = {
   records: [],
   limit: 12,
   offset: 0,
-  query: "all",
   // TODO: move to navigation store?
   enableInfiniteScroll: false
 };
@@ -16,9 +15,6 @@ const mutations = {
   },
   enableInfiniteScroll(state) {
     state.enableInfiniteScroll = true;
-  },
-  changeQuery(state, query) {
-    state.query = query;
   },
   increaseOffset(state) {
     state.offset += state.limit;
@@ -41,13 +37,9 @@ const mutations = {
   }
 };
 const actions = {
-  changeQuery({ commit, dispatch }, query) {
-    commit("changeQuery", query);
-    return dispatch("loadRecords", { replace: true });
-  },
   loadRecords(
     { commit, state },
-    { sourceId = null, replace = false, preview = false }
+    { query = "all", sourceId = null, replace = true, preview = false }
   ) {
     if (replace) {
       commit("resetOffset");
@@ -57,7 +49,7 @@ const actions = {
       meth({
         limit: state.limit,
         offset: state.offset,
-        query: state.query,
+        query,
         sourceId
       })
         .then(response => {
