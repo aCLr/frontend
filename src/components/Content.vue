@@ -4,7 +4,7 @@
       <v-col v-for="record in records" :key="record.id" :cols="colsAmount">
         <v-dialog max-width="770">
           <template v-slot:activator="{ on, attrs }">
-            <v-card min-height="280" v-on="on" v-bind="attrs">
+            <v-card min-height="250" v-on="on" v-bind="attrs">
               <template v-if="record.image">
                 <v-img height="150px" :src="record.image"></v-img>
                 <v-card-title
@@ -14,12 +14,11 @@
               </template>
               <template v-else>
                 <v-card-title>{{ record.title }}</v-card-title>
-                <v-card-text>
-                  <p class="record__preview" v-line-clamp="4">
-                    {{ getPreview(record.content) }}
-                  </p>
+                <v-card-text v-line-clamp="4">
+                  {{ getPreview(record.content) }}
                 </v-card-text>
               </template>
+              <v-spacer></v-spacer>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn icon @click.stop="toggleStarred(record)">
@@ -30,11 +29,19 @@
             </v-card>
           </template>
           <v-card>
-            <v-card-subtitle>{{ record.date }}</v-card-subtitle>
-            <v-card-title class="text-wrap">{{ record.title }}</v-card-title>
+            <v-card-title v-if="record.title" class="text-wrap">{{
+              record.title
+            }}</v-card-title>
             <v-card-text>
               <p v-html="getSanitizedContent(record.content)"></p>
             </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn icon @click.stop="toggleStarred(record)">
+                <v-icon v-if="record.starred">mdi-star</v-icon>
+                <v-icon v-else>mdi-star-outline</v-icon>
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-dialog>
       </v-col>

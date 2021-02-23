@@ -71,9 +71,13 @@ export default {
     }
   },
   methods: {
-    search() {
+    async search() {
+      if (this.query.trim().length === 0) {
+        return;
+      }
       this.dialog = true;
-      this.$store.dispatch("sources/searchSources", this.query);
+      await this.$store.dispatch("sources/searchSources", this.query);
+      this.query = "";
     },
     showSourceContentPreview(source) {
       this.$store.dispatch("records/loadRecords", {
