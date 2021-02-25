@@ -1,0 +1,47 @@
+[
+  {
+    "id": 2,
+    "name": "class Profunctor p where",
+    "origin": "-1001188261187",
+    "kind": "TELEGRAM",
+    "image": null,
+    "last_scrape_time": "2021-01-04T19:52:37.447481",
+    "external_link": "profunctor"
+  },
+  {
+    "id": 109,
+    "name": "OpenNews.opennet.ru: Общая лента новостей",
+    "origin": "https://opennet.ru/opennews/opennews_all_utf.rss",
+    "kind": "WEB",
+    "image": "https://opennet.ru/favicon.png",
+    "last_scrape_time": "2021-02-25T20:47:51.372081",
+    "external_link": "https://opennet.ru/opennews/opennews_all_utf.rss"
+  },
+  {
+    "id": 93,
+    "name": "Все публикации подряд",
+    "origin": "https://habr.com/ru/rss/all/all/?fl=ru",
+    "kind": "WEB",
+    "image": "https://habr.com/images/logo.png",
+    "last_scrape_time": "2021-02-25T20:47:51.735169",
+    "external_link": "https://habr.com/ru/rss/all/all/?fl=ru"
+  },
+  {
+    "id": 15,
+    "name": "oleg_log",
+    "origin": "-1001168936955",
+    "kind": "TELEGRAM",
+    "image": null,
+    "last_scrape_time": "2021-01-05T09:57:20.896562",
+    "external_link": "oleg_log"
+  },
+  {
+    "id": 219,
+    "name": "Новости",
+    "origin": "https://www.zelenograd24.ru/pressroom/rss/news/",
+    "kind": "WEB",
+    "image": null,
+    "last_scrape_time": "2021-02-25T20:47:52.964173",
+    "external_link": "https://www.zelenograd24.ru/pressroom/rss/news/"
+  }
+]
