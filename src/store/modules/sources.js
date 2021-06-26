@@ -1,4 +1,5 @@
 import sourcesApi from "@/api/sources";
+import { Source } from "@/models";
 
 const state = {
   sources: [],
@@ -24,7 +25,7 @@ const actions = {
       sourcesApi
         .loadSources()
         .then(resp => {
-          commit("setSources", resp.data);
+          commit("setSources", resp.getSourcesList().map(Source.fromPb));
           resolve(resp);
         })
         .catch(reject);

@@ -11,7 +11,7 @@ import router from "./router";
 import axios from "axios";
 
 //temp
-axios.defaults.baseURL = "http://localhost";
+axios.defaults.baseURL = "http://localhost::7777";
 axios.defaults.headers.common["Authorization"] = "Bearer 123123";
 Vue.config.productionTip = false;
 Vue.use(lineClamp);
