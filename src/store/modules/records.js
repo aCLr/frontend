@@ -1,5 +1,6 @@
 import Vue from "vue";
 import recordsApi from "@/api/records";
+import { Record, RecordWithMeta } from "@/models";
 
 const state = {
   records: [],
@@ -46,6 +47,7 @@ const actions = {
     }
     return new Promise((resolve, reject) => {
       let meth = preview ? recordsApi.getRecordsPreview : recordsApi.getRecords;
+      let adapt = preview ? Record.fromPb : RecordWithMeta.fromPb;
       meth({
         limit: state.limit,
         offset: state.offset,
@@ -53,15 +55,16 @@ const actions = {
         sourceId
       })
         .then(response => {
+          let records = response.getRecordsList().map(adapt);
           if (replace) {
             commit("resetRecords");
           }
           commit("increaseOffset");
 
           commit("extendRecords", {
-            records: response.data
+            records: records
           });
-          if (response.data.length === 0) {
+          if (records.length === 0) {
             commit("disableInfiniteScroll");
             this.enableInfiniteScroll = false;
           }
@@ -74,7 +77,7 @@ const actions = {
 
   toggleStarred({ commit }, { recordId, starred }) {
     recordsApi.toggleStarred(recordId, starred).then(response => {
-      commit("changeRecord", response.data);
+      commit("changeRecord", RecordWithMeta.fromPb(response.getRecord()));
     });
   }
 };

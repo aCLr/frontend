@@ -1,5 +1,5 @@
 import sourcesApi from "@/api/sources";
-import { Source } from "@/models";
+import { Source, SourceWithMeta } from "@/models";
 
 const state = {
   sources: [],
@@ -20,29 +20,23 @@ const mutations = {
   }
 };
 const actions = {
-  loadSources({ commit }) {
-    return new Promise((resolve, reject) => {
-      sourcesApi
-        .loadSources()
-        .then(resp => {
-          commit("setSources", resp.getSourcesList().map(Source.fromPb));
-          resolve(resp);
-        })
-        .catch(reject);
-    });
+  async loadSources({ commit }) {
+    let response = (await sourcesApi.loadSources()).getSourcesList().map(SourceWithMeta.fromPb);
+    commit("setSources", response);
+    return response
   },
   async deleteSource({ dispatch }, sourceId) {
-    await sourcesApi.deleteSource(sourceId);
+    await sourcesApi.unsubscribe(sourceId);
     dispatch("loadSources");
     dispatch("records/loadRecords", {}, { root: true });
   },
   async searchSources({ commit }, query) {
     commit("startSearch");
-    const response = await sourcesApi.makeSearchQuery(query);
-    commit("finishSearch", response.data);
+    const response = await sourcesApi.search(query);
+    commit("finishSearch", response.getSourcesList().map(Source.fromPb));
   },
   async subscribe({ dispatch }, sourceId) {
-    await sourcesApi.subscribeOnSource(sourceId);
+    await sourcesApi.subscribe(sourceId);
     dispatch("loadSources");
     dispatch("records/loadRecords", {}, { root: true });
   }

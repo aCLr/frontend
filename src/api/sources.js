@@ -1,31 +1,27 @@
-import axios from "axios";
-import { GetSourcesListRequest } from "@/pb/sources_pb";
-import { SourcesServiceClient } from "@/pb/sources_grpc_web_pb";
+import { GetSourcesListRequest, UnsubscribeRequest, SubscribeRequest, SearchSourcesRequest } from "@/pb/sources_pb";
+import { authInterceptor } from "./interceptors";
+import { SourcesServicePromiseClient } from "@/pb/sources_grpc_web_pb";
 
-var client = new SourcesServiceClient(  "http://" + window.location.hostname + ":" + window.location.port, null, null)
+const client = new SourcesServicePromiseClient(  "http://" + window.location.hostname + ":" + window.location.port, null, {'unaryInterceptors': [authInterceptor]});
 
 export default {
-  deleteSource(sourceId) {
-    return axios.delete(`api/v1/sources/${sourceId}`);
+  unsubscribe(sourceId) {
+    let request = new UnsubscribeRequest();
+    request.setSourceId(sourceId)
+    return client.unsubscribe(request, {})
   },
-  subscribeOnSource(sourceId) {
-    return axios.put(`api/v1/sources/${sourceId}`);
+  subscribe(sourceId) {
+    let request = new SubscribeRequest();
+    request.setSourceId(sourceId)
+    return client.subscribe(request, {})
   },
   loadSources() {
-    return new Promise((resolve, reject) => {
-      let request = new GetSourcesListRequest();
-      client.getSourcesList(request, {"token": "123123"}, (err, resp) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(resp);
-        }
-      })
-    })
+    let request = new GetSourcesListRequest();
+    return client.getSourcesList(request, {})
   },
-  makeSearchQuery(query) {
-    return axios.get("api/v1/sources/search", {
-      params: { origin: query }
-    });
+  search(query) {
+    let request = new SearchSourcesRequest();
+    request.setQuery(query)
+    return client.searchSources(request, {})
   }
 };
