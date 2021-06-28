@@ -11,7 +11,7 @@ export default {
     request.setPassword(password);
     return client.login(request, {})
   },
-  register(login, password) {
+  async register(login, password) {
     let request = new RegisterRequest()
     request.setLogin(login);
     request.setPassword(password);

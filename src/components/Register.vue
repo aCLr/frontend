@@ -2,7 +2,7 @@
   <div>
     <h1>Sign up</h1>
     <v-form v-model="valid">
-      <v-text-field v-model="username" label="Login" required></v-text-field>
+      <v-text-field v-model="login" label="Login" required></v-text-field>
       <v-text-field v-model="password" label="Password" required></v-text-field>
       <v-btn
           :disabled="!valid"
@@ -20,14 +20,14 @@
 export default {
   name: "Register",
   data: () => ({
-    username: "",
+    login: "",
     password: "",
     valid: true,
   }),
   methods: {
     register: function () {
-      const {username, password} = this;
-      this.$store.dispatch("auth/register", {username, password}).then(() => {
+      const {login, password} = this;
+      this.$store.dispatch("auth/register", {login, password}).then(() => {
         this.$router.push("/");
       })
     }
