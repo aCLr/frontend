@@ -1,4 +1,5 @@
 import authApi from "@/api/auth";
+import router from "@/router";
 
 const tokenKey = "user-token";
 
@@ -11,7 +12,7 @@ const getters = {
 
 
 const actions = {
-    "register": ({commit}, {login, password}) => {
+    register({commit}, {login, password}) {
         return new Promise((resolve, reject) => {
             authApi.register(login, password).then(resp => {
                 const user = resp.getUser();
@@ -24,7 +25,10 @@ const actions = {
             })
         })
     },
-    "login": ({commit}, {login, password}) => {
+    logout({commit}) {
+        commit("logout")
+    },
+    login({commit}, {login, password}) {
         return new Promise((resolve, reject) => { // The Promise used for router redirect in login
             authApi.login(login, password).then(resp => {
                 const user = resp.getUser()
@@ -39,8 +43,13 @@ const actions = {
     }
 };
 const mutations = {
-    "authSuccess": (state, token) => {
+    authSuccess(state, token) {
         state.token = token;
+    },
+    logout(state) {
+        state.token = "";
+        localStorage.removeItem("user-token")
+        router.push("/")
     }
 };
 
