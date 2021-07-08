@@ -30,6 +30,7 @@ export default {
   toggleStarred(recordId, newValue) {
     let request = new MarkRecordRequest()
     request.setStarred(newValue);
+    request.setRecordId(recordId);
     return client.markRecord(request, {})
   }
 };
