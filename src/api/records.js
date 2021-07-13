@@ -1,4 +1,4 @@
-import { GetRecordsListRequest, GetRecordsPreviewRequest, MarkRecordRequest, RecordsQuery } from "@/pb/records_pb";
+import { GetRecordsListRequest, GetRecordsPreviewRequest, MarkRecordRequest } from "@/pb/records_pb";
 import { authInterceptor } from "./interceptors";
 import { RecordsServicePromiseClient } from "@/pb/records_grpc_web_pb";
 
@@ -11,22 +11,22 @@ export default {
     request.setOffset(offset);
     switch (query) {
       case "all":
-        request.setQuery(RecordsQuery.RECORDS_QUERY_ALL);
+        request.setOnlyStarred(false);
         break;
       case "starred":
-        request.setQuery(RecordsQuery.RECORDS_QUERY_STARRED);
+        request.setOnlyStarred(true);
         break;
-      default:
-        request.setQuery(RecordsQuery.RECORDS_QUERY_UNDEFINED);
     }
     request.setSourceId(sourceId);
     return client.getRecordsList(request, {})
   },
+
   getRecordsPreview({ sourceId }) {
     let request = new GetRecordsPreviewRequest();
     request.setSourceId(sourceId);
     return client.getRecordsPreview(request, {})
   },
+
   toggleStarred(recordId, newValue) {
     let request = new MarkRecordRequest()
     request.setStarred(newValue);

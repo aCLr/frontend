@@ -1,45 +1,59 @@
 <template>
-  <v-list-item
-    :key="source.id"
-    link
-    :to="{ name: 'sourceContent', params: { sourceId: source.id } }"
-    @click="showSourceContent(source)"
-    @contextmenu="showContextMenu"
+  <div
+    @click="showSourceContent"
   >
-    <v-list-item-icon v-if="source.image">
-      <img :src="source.image" />
-    </v-list-item-icon>
-
-    <v-list-item-content three-line>
-      <v-list-item-title class="subtitle-2 text-wrap">{{
-        source.name
-      }}</v-list-item-title>
-    </v-list-item-content>
-  </v-list-item>
+    <v-menu offset-y>
+      <template v-slot:activator="{ on }">
+        <v-list-item
+             @contextmenu.prevent="on.click">
+          <v-list-item-icon v-if="source.image" >
+            <img width="35px" :src="source.image" />
+          </v-list-item-icon>
+          <v-list-item-title v-text="source.name" class="subtitle-2 text-wrap"></v-list-item-title>
+        </v-list-item>
+      </template>
+      <v-list dense>
+        <v-list-item @click="showChangeFolderDialog = true">
+          <v-list-item-title>
+            Move to...
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="deleteSource()">
+          <v-list-item-title>
+            Delete
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+    <ChangeSourceFolderDialog v-if="showChangeFolderDialog" :sourceId="source.id" v-model="showChangeFolderDialog"></ChangeSourceFolderDialog>
+  </div>
 </template>
 
 <script>
+import ChangeSourceFolderDialog from "./ChangeSourceFolderDialog";
+
 export default {
   name: "SourceItem",
   props: ["source"],
+  components: {
+    ChangeSourceFolderDialog
+  },
+  data: () => ({
+    showChangeFolderDialog: false
+  }),
   methods: {
+    async deleteSource() {
+      await this.$store.dispatch(
+          "sources/deleteSource",
+          this.source.id
+      );
+    },
     showSourceContent: function() {
       this.$store.dispatch("records/loadRecords", {
         sourceId: this.source.id,
         replace: true
       });
     },
-    showContextMenu: function(e) {
-      e.preventDefault();
-      this.$store.dispatch("navContextMenu/hideNavContextMenu");
-      this.$nextTick(() => {
-        this.$store.dispatch("navContextMenu/showNavContextMenu", {
-          x: e.clientX,
-          y: e.clientY,
-          sourceId: this.source.id
-        });
-      });
-    }
   }
 };
 </script>

@@ -153,6 +153,86 @@ proto.sources.SourcesServicePromiseClient.prototype.getSourcesList =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
+ *   !proto.sources.GetSourceByIdRequest,
+ *   !proto.sources.GetSourceByIdResponse>}
+ */
+const methodDescriptor_SourcesService_GetSourceById = new grpc.web.MethodDescriptor(
+  '/sources.SourcesService/GetSourceById',
+  grpc.web.MethodType.UNARY,
+  proto.sources.GetSourceByIdRequest,
+  proto.sources.GetSourceByIdResponse,
+  /**
+   * @param {!proto.sources.GetSourceByIdRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.sources.GetSourceByIdResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.sources.GetSourceByIdRequest,
+ *   !proto.sources.GetSourceByIdResponse>}
+ */
+const methodInfo_SourcesService_GetSourceById = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.sources.GetSourceByIdResponse,
+  /**
+   * @param {!proto.sources.GetSourceByIdRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.sources.GetSourceByIdResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.sources.GetSourceByIdRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.sources.GetSourceByIdResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.sources.GetSourceByIdResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.sources.SourcesServiceClient.prototype.getSourceById =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/sources.SourcesService/GetSourceById',
+      request,
+      metadata || {},
+      methodDescriptor_SourcesService_GetSourceById,
+      callback);
+};
+
+
+/**
+ * @param {!proto.sources.GetSourceByIdRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.sources.GetSourceByIdResponse>}
+ *     Promise that resolves to the response
+ */
+proto.sources.SourcesServicePromiseClient.prototype.getSourceById =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/sources.SourcesService/GetSourceById',
+      request,
+      metadata || {},
+      methodDescriptor_SourcesService_GetSourceById);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
  *   !proto.sources.SearchSourcesRequest,
  *   !proto.sources.SearchSourcesResponse>}
  */
@@ -387,6 +467,86 @@ proto.sources.SourcesServicePromiseClient.prototype.unsubscribe =
       request,
       metadata || {},
       methodDescriptor_SourcesService_Unsubscribe);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.sources.MoveToFolderRequest,
+ *   !proto.sources.MoveToFolderResponse>}
+ */
+const methodDescriptor_SourcesService_MoveToFolder = new grpc.web.MethodDescriptor(
+  '/sources.SourcesService/MoveToFolder',
+  grpc.web.MethodType.UNARY,
+  proto.sources.MoveToFolderRequest,
+  proto.sources.MoveToFolderResponse,
+  /**
+   * @param {!proto.sources.MoveToFolderRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.sources.MoveToFolderResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.sources.MoveToFolderRequest,
+ *   !proto.sources.MoveToFolderResponse>}
+ */
+const methodInfo_SourcesService_MoveToFolder = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.sources.MoveToFolderResponse,
+  /**
+   * @param {!proto.sources.MoveToFolderRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.sources.MoveToFolderResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.sources.MoveToFolderRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.sources.MoveToFolderResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.sources.MoveToFolderResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.sources.SourcesServiceClient.prototype.moveToFolder =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/sources.SourcesService/MoveToFolder',
+      request,
+      metadata || {},
+      methodDescriptor_SourcesService_MoveToFolder,
+      callback);
+};
+
+
+/**
+ * @param {!proto.sources.MoveToFolderRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.sources.MoveToFolderResponse>}
+ *     Promise that resolves to the response
+ */
+proto.sources.SourcesServicePromiseClient.prototype.moveToFolder =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/sources.SourcesService/MoveToFolder',
+      request,
+      metadata || {},
+      methodDescriptor_SourcesService_MoveToFolder);
 };
 
 

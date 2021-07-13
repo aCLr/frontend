@@ -79,7 +79,8 @@ const actions = {
     recordsApi.toggleStarred(recordId, starred).then(response => {
       commit("changeRecord", RecordWithMeta.fromPb(response.getRecord()));
     });
-  }
+  },
+
 };
 
 export default {

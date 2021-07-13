@@ -1,4 +1,4 @@
-import { RegisterRequest, LoginRequest } from "@/pb/users_pb";
+import { RegisterRequest, LoginRequest, GetFoldersRequest } from "@/pb/users_pb";
 import { authInterceptor } from "./interceptors";
 import {UsersServicePromiseClient} from "@/pb/users_grpc_web_pb";
 
@@ -11,10 +11,16 @@ export default {
     request.setPassword(password);
     return client.login(request, {})
   },
+
   async register(login, password) {
     let request = new RegisterRequest()
     request.setLogin(login);
     request.setPassword(password);
     return client.register(request, {})
+  },
+
+  async getFolders() {
+    let request = new GetFoldersRequest();
+    return client.getFolders(request, {})
   }
 };

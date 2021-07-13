@@ -1,4 +1,4 @@
-import authApi from "@/api/auth";
+import authApi from "@/api/users";
 import router from "@/router";
 
 const tokenKey = "user-token";

@@ -1,11 +1,19 @@
 <template>
   <v-app id="inspire">
     <template v-if="isAuthenticated">
-      <TopBar></TopBar>
-      <Navigation />
-      <v-main>
-        <router-view></router-view>
-      </v-main>
+      <v-overlay :value="loading > 0">
+        <v-progress-circular
+            indeterminate
+            size="64"
+        ></v-progress-circular>
+      </v-overlay>
+      <template v-if="loading === 0">
+        <TopBar></TopBar>
+        <Navigation />
+        <v-main>
+          <router-view></router-view>
+        </v-main>
+      </template>
     </template>
     <template v-else>
       <v-container>
@@ -32,10 +40,27 @@ import Register from "@/components/Register";
 export default {
   name: "App",
   components: {Register, Navigation, TopBar, Login },
+  data() {
+    return {
+      loading: 2
+    }
+  },
   computed: {
     ...mapGetters({
       isAuthenticated: "auth/isAuthenticated",
     })
+  },
+  methods: {
+    loadSources() {
+      return this.$store.dispatch("sources/loadSources");
+    },
+    loadFolders() {
+      return this.$store.dispatch("folders/loadFolders")
+    }
+  },
+  mounted() {
+    this.loadFolders().then(() => {this.loading -= 1})
+    this.loadSources().then(() => {this.loading -= 1})
   }
 };
 </script>

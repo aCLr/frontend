@@ -78,7 +78,7 @@ export default {
   name: "SourcePreview",
   props: {
     sourceId: {
-      type: Number,
+      type: String,
       required: true
     }
   },

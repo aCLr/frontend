@@ -310,5 +310,165 @@ proto.records.RecordsServicePromiseClient.prototype.markRecord =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.records.AddRecordTagRequest,
+ *   !proto.records.AddRecordTagResponse>}
+ */
+const methodDescriptor_RecordsService_AddRecordTag = new grpc.web.MethodDescriptor(
+  '/records.RecordsService/AddRecordTag',
+  grpc.web.MethodType.UNARY,
+  proto.records.AddRecordTagRequest,
+  proto.records.AddRecordTagResponse,
+  /**
+   * @param {!proto.records.AddRecordTagRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.records.AddRecordTagResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.records.AddRecordTagRequest,
+ *   !proto.records.AddRecordTagResponse>}
+ */
+const methodInfo_RecordsService_AddRecordTag = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.records.AddRecordTagResponse,
+  /**
+   * @param {!proto.records.AddRecordTagRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.records.AddRecordTagResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.records.AddRecordTagRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.records.AddRecordTagResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.records.AddRecordTagResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.records.RecordsServiceClient.prototype.addRecordTag =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/records.RecordsService/AddRecordTag',
+      request,
+      metadata || {},
+      methodDescriptor_RecordsService_AddRecordTag,
+      callback);
+};
+
+
+/**
+ * @param {!proto.records.AddRecordTagRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.records.AddRecordTagResponse>}
+ *     Promise that resolves to the response
+ */
+proto.records.RecordsServicePromiseClient.prototype.addRecordTag =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/records.RecordsService/AddRecordTag',
+      request,
+      metadata || {},
+      methodDescriptor_RecordsService_AddRecordTag);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.records.RemoveRecordTagRequest,
+ *   !proto.records.RemoveRecordTagResponse>}
+ */
+const methodDescriptor_RecordsService_RemoveRecordTag = new grpc.web.MethodDescriptor(
+  '/records.RecordsService/RemoveRecordTag',
+  grpc.web.MethodType.UNARY,
+  proto.records.RemoveRecordTagRequest,
+  proto.records.RemoveRecordTagResponse,
+  /**
+   * @param {!proto.records.RemoveRecordTagRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.records.RemoveRecordTagResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.records.RemoveRecordTagRequest,
+ *   !proto.records.RemoveRecordTagResponse>}
+ */
+const methodInfo_RecordsService_RemoveRecordTag = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.records.RemoveRecordTagResponse,
+  /**
+   * @param {!proto.records.RemoveRecordTagRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.records.RemoveRecordTagResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.records.RemoveRecordTagRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.records.RemoveRecordTagResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.records.RemoveRecordTagResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.records.RecordsServiceClient.prototype.removeRecordTag =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/records.RecordsService/RemoveRecordTag',
+      request,
+      metadata || {},
+      methodDescriptor_RecordsService_RemoveRecordTag,
+      callback);
+};
+
+
+/**
+ * @param {!proto.records.RemoveRecordTagRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.records.RemoveRecordTagResponse>}
+ *     Promise that resolves to the response
+ */
+proto.records.RecordsServicePromiseClient.prototype.removeRecordTag =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/records.RecordsService/RemoveRecordTag',
+      request,
+      metadata || {},
+      methodDescriptor_RecordsService_RemoveRecordTag);
+};
+
+
 module.exports = proto.records;
 

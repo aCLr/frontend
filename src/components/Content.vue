@@ -147,7 +147,7 @@ export default {
         return;
       }
       this.offset += limit;
-      this.$store.dispatch("records/loadRecords");
+      this.$store.dispatch("records/loadRecords", {});
     },
     toggleStarred(record) {
       this.$store.dispatch("records/toggleStarred", {

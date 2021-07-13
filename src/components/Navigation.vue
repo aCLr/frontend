@@ -1,14 +1,14 @@
 <template>
   <v-navigation-drawer
-    app
-    :temporary="this.getDrawerForSize()"
-    v-model="drawer"
+      app
+      :temporary="this.getDrawerForSize()"
+      v-model="drawer"
   >
-    <v-list>
+    <v-list dense>
       <v-list-item link>
         <v-list-item-content>
           <v-list-item-title>
-            <SearchSource />
+            <SearchSource/>
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
@@ -32,71 +32,63 @@
       </v-list-item>
     </v-list>
     <v-divider></v-divider>
-    <v-list>
-      <SourceItem
-        :source="source"
-        :key="source.id"
-        v-for="source in sources"
-      ></SourceItem>
-
-      <v-menu
-        v-model="showNavContextMenu"
-        :position-x="contextMenuX"
-        :position-y="contextMenuY"
-        absolute
-        offset-y
-      >
-        <v-list>
-          <v-list-item @click="deleteSource()">
-            <v-list-item-title>
-              Delete
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </v-list>
+    <v-treeview
+        dense
+        hoverable
+        open-on-click
+        :items="navigationTree"
+    >
+      <template slot="label" slot-scope="{ item }">
+        <SourceItem :source="item" v-if="item.type === 'source'"></SourceItem>
+        <FolderItem :folder="item" v-if="item.type === 'folder'"></FolderItem>
+      </template>
+    </v-treeview>
   </v-navigation-drawer>
 </template>
 
 <script>
-import SearchSource from "@/components/SearchSource";
-import SourceItem from "@/components/SourceItem";
-import { mapState } from "vuex";
+import SearchSource from "./SearchSource";
+import SourceItem from "./SourceItem";
+import FolderItem from "./FolderItem";
+
 export default {
   name: "Navigation",
-  components: { SourceItem, SearchSource },
+  components: { SearchSource, SourceItem, FolderItem },
   computed: {
-    ...mapState({
-      sources: state => state.sources.sources,
-      navContextMenu: state => state.navContextMenu.show,
-      contextMenuX: state => state.navContextMenu.x,
-      contextMenuY: state => state.navContextMenu.y,
-      contextMenuSourceId: state => state.navContextMenu.sourceId
-    })
+    navigationTree: function () {
+      if (!this.$store.state.folders.loaded) return
+      let folders = {}
+      this.$store.state.folders.folders.forEach((f) => folders[f.id] = Object.assign({
+        children: [],
+        type: "folder",
+      }, f))
+      let tree = []
+
+      this.$store.state.sources.sources.forEach(s => {
+        let source = Object.assign({type: "source"}, s)
+        if (!source.folderId) {
+          tree.push(source)
+        } else {
+          let folder = folders[source.folderId];
+          folder.children.push(source)
+        }
+      })
+
+      Object.values(folders).forEach(f => {
+        if (!f.parentFolderId) {
+          tree.push(f)
+        } else {
+          let folder = folders[f.parentFolderId];
+          folder.children.push(f)
+        }
+      })
+      return tree
+    }
   },
   data: () => ({
     drawer: false,
-    showNavContextMenu: false
   }),
-  watch: {
-    showNavContextMenu(newValue) {
-      if (!newValue) {
-        this.$store.dispatch("navContextMenu/hideNavContextMenu");
-      }
-    },
-    navContextMenu(newValue) {
-      if (newValue) {
-        this.showNavContextMenu = true;
-      }
-    }
-  },
   methods: {
-    async deleteSource() {
-      await this.$store.dispatch(
-        "sources/deleteSource",
-        this.contextMenuSourceId
-      );
-    },
     toggleDrawer() {
       this.drawer = !this.drawer;
     },
@@ -109,9 +101,6 @@ export default {
         default:
           return true;
       }
-    },
-    loadSources() {
-      this.$store.dispatch("sources/loadSources");
     }
   },
   created() {
@@ -119,7 +108,6 @@ export default {
   },
   mounted() {
     this.drawer = !this.getDrawerForSize();
-    this.loadSources();
   }
 };
 </script>

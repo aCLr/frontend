@@ -59,10 +59,23 @@ class RecordWithMeta extends Record {
     }
 }
 
+class Folder {
+    constructor(id, name, parentFolderId) {
+        this.id = id;
+        this.name = name;
+        this.parentFolderId = parentFolderId;
+    }
+
+    static fromPb(object) {
+        return new Folder(object.getId(), object.getName(), object.getParentFolderId())
+    }
+}
+
 
 export {
     Source,
     SourceWithMeta,
     Record,
     RecordWithMeta,
+    Folder,
 }

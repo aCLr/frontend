@@ -230,5 +230,245 @@ proto.users.UsersServicePromiseClient.prototype.register =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.users.GetFoldersRequest,
+ *   !proto.users.GetFoldersResponse>}
+ */
+const methodDescriptor_UsersService_GetFolders = new grpc.web.MethodDescriptor(
+  '/users.UsersService/GetFolders',
+  grpc.web.MethodType.UNARY,
+  proto.users.GetFoldersRequest,
+  proto.users.GetFoldersResponse,
+  /**
+   * @param {!proto.users.GetFoldersRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.users.GetFoldersResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.users.GetFoldersRequest,
+ *   !proto.users.GetFoldersResponse>}
+ */
+const methodInfo_UsersService_GetFolders = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.users.GetFoldersResponse,
+  /**
+   * @param {!proto.users.GetFoldersRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.users.GetFoldersResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.users.GetFoldersRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.users.GetFoldersResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.users.GetFoldersResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.users.UsersServiceClient.prototype.getFolders =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/users.UsersService/GetFolders',
+      request,
+      metadata || {},
+      methodDescriptor_UsersService_GetFolders,
+      callback);
+};
+
+
+/**
+ * @param {!proto.users.GetFoldersRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.users.GetFoldersResponse>}
+ *     Promise that resolves to the response
+ */
+proto.users.UsersServicePromiseClient.prototype.getFolders =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/users.UsersService/GetFolders',
+      request,
+      metadata || {},
+      methodDescriptor_UsersService_GetFolders);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.users.AddFolderRequest,
+ *   !proto.users.AddFolderResponse>}
+ */
+const methodDescriptor_UsersService_AddFolder = new grpc.web.MethodDescriptor(
+  '/users.UsersService/AddFolder',
+  grpc.web.MethodType.UNARY,
+  proto.users.AddFolderRequest,
+  proto.users.AddFolderResponse,
+  /**
+   * @param {!proto.users.AddFolderRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.users.AddFolderResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.users.AddFolderRequest,
+ *   !proto.users.AddFolderResponse>}
+ */
+const methodInfo_UsersService_AddFolder = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.users.AddFolderResponse,
+  /**
+   * @param {!proto.users.AddFolderRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.users.AddFolderResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.users.AddFolderRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.users.AddFolderResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.users.AddFolderResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.users.UsersServiceClient.prototype.addFolder =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/users.UsersService/AddFolder',
+      request,
+      metadata || {},
+      methodDescriptor_UsersService_AddFolder,
+      callback);
+};
+
+
+/**
+ * @param {!proto.users.AddFolderRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.users.AddFolderResponse>}
+ *     Promise that resolves to the response
+ */
+proto.users.UsersServicePromiseClient.prototype.addFolder =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/users.UsersService/AddFolder',
+      request,
+      metadata || {},
+      methodDescriptor_UsersService_AddFolder);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.users.RemoveFolderRequest,
+ *   !proto.users.RemoveFolderResponse>}
+ */
+const methodDescriptor_UsersService_RemoveFolder = new grpc.web.MethodDescriptor(
+  '/users.UsersService/RemoveFolder',
+  grpc.web.MethodType.UNARY,
+  proto.users.RemoveFolderRequest,
+  proto.users.RemoveFolderResponse,
+  /**
+   * @param {!proto.users.RemoveFolderRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.users.RemoveFolderResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.users.RemoveFolderRequest,
+ *   !proto.users.RemoveFolderResponse>}
+ */
+const methodInfo_UsersService_RemoveFolder = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.users.RemoveFolderResponse,
+  /**
+   * @param {!proto.users.RemoveFolderRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.users.RemoveFolderResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.users.RemoveFolderRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.users.RemoveFolderResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.users.RemoveFolderResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.users.UsersServiceClient.prototype.removeFolder =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/users.UsersService/RemoveFolder',
+      request,
+      metadata || {},
+      methodDescriptor_UsersService_RemoveFolder,
+      callback);
+};
+
+
+/**
+ * @param {!proto.users.RemoveFolderRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.users.RemoveFolderResponse>}
+ *     Promise that resolves to the response
+ */
+proto.users.UsersServicePromiseClient.prototype.removeFolder =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/users.UsersService/RemoveFolder',
+      request,
+      metadata || {},
+      methodDescriptor_UsersService_RemoveFolder);
+};
+
+
 module.exports = proto.users;
 
