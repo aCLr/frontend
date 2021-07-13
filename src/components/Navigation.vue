@@ -34,6 +34,7 @@
     <v-divider></v-divider>
     <v-treeview
         dense
+        item-key="treeNodeId"
         hoverable
         open-on-click
         :items="navigationTree"
@@ -59,13 +60,14 @@ export default {
       if (!this.$store.state.folders.loaded) return
       let folders = {}
       this.$store.state.folders.folders.forEach((f) => folders[f.id] = Object.assign({
-        children: [],
-        type: "folder",
-      }, f))
+
+      }, f, {children: [],
+        treeNodeId: `folder-${f.id}`,
+        type: "folder",}))
       let tree = []
 
       this.$store.state.sources.sources.forEach(s => {
-        let source = Object.assign({type: "source"}, s)
+        let source = Object.assign({}, s, {type: "source", treeNodeId: `source-${s.id}`,})
         if (!source.folderId) {
           tree.push(source)
         } else {

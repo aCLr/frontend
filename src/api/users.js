@@ -1,4 +1,4 @@
-import { RegisterRequest, LoginRequest, GetFoldersRequest } from "@/pb/users_pb";
+import { AddFolderRequest, RegisterRequest, LoginRequest, GetFoldersRequest } from "@/pb/users_pb";
 import { authInterceptor } from "./interceptors";
 import {UsersServicePromiseClient} from "@/pb/users_grpc_web_pb";
 
@@ -22,5 +22,11 @@ export default {
   async getFolders() {
     let request = new GetFoldersRequest();
     return client.getFolders(request, {})
+  },
+
+  createFolder(folderName) {
+    let request = new AddFolderRequest();
+    request.setName(folderName)
+    return client.addFolder(request, {})
   }
 };

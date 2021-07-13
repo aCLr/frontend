@@ -56,7 +56,7 @@ const actions = {
   },
 
   async loadSource({ commit }, sourceId) {
-    let source = SourceWithMeta.fromPb((await sourceId.getById(sourceId)).getSource());
+    let source = SourceWithMeta.fromPb((await sourcesApi.getById(sourceId)).getSource());
     commit("replaceSource", source)
   }
 };

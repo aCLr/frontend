@@ -5,14 +5,22 @@
       <v-card-text>
         <v-treeview
             dense
-            open-on-click
-            :items="folders"
+            activatable
+            :active="[source.folderId]"
             @update:active="onUpdate"
+            :items="folders"
         >
-          <template slot="label" slot-scope="{ item }">
-            <a @click="onUpdate(item)">{{ item.name }}</a>
-          </template>
         </v-treeview>
+        <v-spacer></v-spacer>
+        <v-text-field
+            dense
+            @keyup.enter="createFolder"
+            @click:append-outer="createFolder"
+            v-model="newFolderName"
+            append-outer-icon="mdi-map-marker"
+            placeholder="Create new"
+            value=""
+        ></v-text-field>
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -46,16 +54,16 @@ export default {
     }
   },
   methods: {
-    onUpdate(sel) {
-      this.$store.dispatch("folders/loadFolders")
+    createFolder() {
+      this.$store.dispatch("folders/createFolder",  this.newFolderName)
+    },
+    onUpdate(folder) {
+      this.$store.dispatch("folders/setFolder", {folderId: folder[0], sourceId: this.source.id})
     }
   },
   data() {
     return {
-      tags: [],
-      tagsListModel: null,
-      isLoading: false,
-      search: null,
+      newFolderName: null,
     }
   }
 }
