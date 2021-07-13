@@ -6,7 +6,11 @@ const state = {
     folders: [],
     loaded: false,
 };
-const getters = {};
+const getters = {
+    getById: (state) => (id) => {
+        return state.folders.find(s => s.id === id)
+    }
+};
 
 const mutations = {
     setFolders(state, folders) {

@@ -550,5 +550,165 @@ proto.sources.SourcesServicePromiseClient.prototype.moveToFolder =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.sources.SearchTagsRequest,
+ *   !proto.sources.SearchTagsResponse>}
+ */
+const methodDescriptor_SourcesService_SearchTags = new grpc.web.MethodDescriptor(
+  '/sources.SourcesService/SearchTags',
+  grpc.web.MethodType.UNARY,
+  proto.sources.SearchTagsRequest,
+  proto.sources.SearchTagsResponse,
+  /**
+   * @param {!proto.sources.SearchTagsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.sources.SearchTagsResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.sources.SearchTagsRequest,
+ *   !proto.sources.SearchTagsResponse>}
+ */
+const methodInfo_SourcesService_SearchTags = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.sources.SearchTagsResponse,
+  /**
+   * @param {!proto.sources.SearchTagsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.sources.SearchTagsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.sources.SearchTagsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.sources.SearchTagsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.sources.SearchTagsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.sources.SourcesServiceClient.prototype.searchTags =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/sources.SourcesService/SearchTags',
+      request,
+      metadata || {},
+      methodDescriptor_SourcesService_SearchTags,
+      callback);
+};
+
+
+/**
+ * @param {!proto.sources.SearchTagsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.sources.SearchTagsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.sources.SourcesServicePromiseClient.prototype.searchTags =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/sources.SourcesService/SearchTags',
+      request,
+      metadata || {},
+      methodDescriptor_SourcesService_SearchTags);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.sources.SetSourceTagsRequest,
+ *   !proto.sources.SetSourceTagsResponse>}
+ */
+const methodDescriptor_SourcesService_SetSourceTags = new grpc.web.MethodDescriptor(
+  '/sources.SourcesService/SetSourceTags',
+  grpc.web.MethodType.UNARY,
+  proto.sources.SetSourceTagsRequest,
+  proto.sources.SetSourceTagsResponse,
+  /**
+   * @param {!proto.sources.SetSourceTagsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.sources.SetSourceTagsResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.sources.SetSourceTagsRequest,
+ *   !proto.sources.SetSourceTagsResponse>}
+ */
+const methodInfo_SourcesService_SetSourceTags = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.sources.SetSourceTagsResponse,
+  /**
+   * @param {!proto.sources.SetSourceTagsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.sources.SetSourceTagsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.sources.SetSourceTagsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.sources.SetSourceTagsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.sources.SetSourceTagsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.sources.SourcesServiceClient.prototype.setSourceTags =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/sources.SourcesService/SetSourceTags',
+      request,
+      metadata || {},
+      methodDescriptor_SourcesService_SetSourceTags,
+      callback);
+};
+
+
+/**
+ * @param {!proto.sources.SetSourceTagsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.sources.SetSourceTagsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.sources.SourcesServicePromiseClient.prototype.setSourceTags =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/sources.SourcesService/SetSourceTags',
+      request,
+      metadata || {},
+      methodDescriptor_SourcesService_SetSourceTags);
+};
+
+
 module.exports = proto.sources;
 

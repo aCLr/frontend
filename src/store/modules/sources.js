@@ -4,15 +4,37 @@ import Vue from "vue";
 
 const state = {
   sources: [],
+  tags: [],
+  selectedTags: [],
   searching: false,
   search_results: []
 };
 const getters = {
   getById: (state) => (id) => {
     return state.sources.find(s => s.id === id)
+  },
+  tags: state => {
+    return [...new Set(state.tags.concat(state.selectedTags))]
   }
 };
 const mutations = {
+  saveTags(state, payload) {
+    state.tags = payload;
+  },
+
+  clearStoredTags(state) {
+    state.selectedTags = [];
+    state.tags = [];
+  },
+
+  newTag(state, tag) {
+    state.tags.push(tag);
+  },
+
+  setSelectedTags(state, tags) {
+    state.selectedTags = tags
+  },
+
   setSources(state, payload) {
     state.sources = payload;
   },
@@ -58,6 +80,28 @@ const actions = {
   async loadSource({ commit }, sourceId) {
     let source = SourceWithMeta.fromPb((await sourcesApi.getById(sourceId)).getSource());
     commit("replaceSource", source)
+  },
+
+  async searchTags({commit}, query) {
+    let tags = await sourcesApi.searchTags(query, 20);
+    commit("saveTags", tags.getTagsList())
+  },
+
+  async setSourceTags({dispatch, state}, sourceId) {
+    await sourcesApi.setTags(sourceId, state.selectedTags);
+    await dispatch("loadSource", sourceId)
+  },
+
+  newTag({commit}, tag) {
+    commit("newTag", tag)
+  },
+
+  selectTags({commit}, tags) {
+    commit("setSelectedTags", tags)
+  },
+
+  clearStoredTags( {commit} ) {
+    commit("clearStoredTags")
   }
 };
 

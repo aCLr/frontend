@@ -1,4 +1,4 @@
-import { GetSourceByIdRequest, GetSourcesListRequest, UnsubscribeRequest, SubscribeRequest, SearchSourcesRequest, MoveToFolderRequest } from "@/pb/sources_pb";
+import { SetSourceTagsRequest, SearchTagsRequest, GetSourceByIdRequest, GetSourcesListRequest, UnsubscribeRequest, SubscribeRequest, SearchSourcesRequest, MoveToFolderRequest } from "../pb/sources_pb";
 import { authInterceptor } from "./interceptors";
 import { SourcesServicePromiseClient } from "@/pb/sources_grpc_web_pb";
 
@@ -35,9 +35,23 @@ export default {
   },
 
   setFolder(sourceId, folderId) {
-    let request= new MoveToFolderRequest();
+    let request = new MoveToFolderRequest();
     request.setSourceId(sourceId);
     request.setFolderId(folderId);
     return client.moveToFolder(request, {})
+  },
+
+  searchTags(query, limit) {
+    let request = new SearchTagsRequest();
+    request.setSearch(query)
+    request.setLimit(limit)
+    return client.searchTags(request, {})
+  },
+
+  setTags(sourceId, tags) {
+    let request = new SetSourceTagsRequest();
+    request.setSourceId(sourceId);
+    request.setTagsList(tags);
+    return client.setSourceTags(request, {})
   }
 };
