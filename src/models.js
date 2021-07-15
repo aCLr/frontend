@@ -1,29 +1,21 @@
 class Source {
-    constructor(id, name, origin, kind, image, last_scrape_time, external_link) {
-        this.id = id;
-        this.name = name;
-        this.origin = origin;
-        this.kind = kind;
-        this.image = image;
-        this.lastScrapeTome = last_scrape_time;
-        this.externalLink = external_link;
-    }
-
-    static fromPb(object) {
-
-        return new Source(object.getId(), object.getName(), object.getOrigin(), object.getKind(), object.getImage(), object.getLastScrapeTime(), object.getExternalLink())
+    constructor(object) {
+        this.id = object.getId();
+        this.name = object.getName();
+        this.origin = object.getOrigin();
+        this.kind = object.getKind();
+        this.image = object.getImage();
+        this.lastScrapeTome = object.getLastScrapeTime();
+        this.externalLink = object.getExternalLink();
     }
 }
 
+
 class SourceWithMeta extends Source {
-    constructor(id, name, origin, kind, image, last_scrape_time, external_link, folderId) {
-        super(id, name, origin, kind, image, last_scrape_time, external_link);
-        this.folderId = folderId;
-    }
-
-    static fromPb(object) {
-
-        return new SourceWithMeta(object.getId(), object.getName(), object.getOrigin(), object.getKind(), object.getImage(), object.getLastScrapeTime(), object.getExternalLink(), object.getFolderId())
+    constructor(object) {
+        super(object.getSource())
+        this.folderId = object.getFolderId();
+        this.tags = object.getTagsList()
     }
 }
 

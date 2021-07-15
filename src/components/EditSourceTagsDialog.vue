@@ -34,12 +34,13 @@ export default {
   methods: {
     save() {
       this.$store.dispatch("sources/setSourceTags", this.sourceId)
+      this.onDialogClosed(false);
     },
     tagsSelected(event) {
       this.$store.dispatch("sources/selectTags", event)
     },
     cancel() {
-
+      this.onDialogClosed(false);
     },
     addNewItem() {
       this.tagsListModel.push(this.search)
@@ -60,9 +61,13 @@ export default {
       search: null,
     }
   },
+  mounted() {
+    this.tagsListModel = this.source.tags;
+    this.$store.dispatch("sources/selectTags", this.tagsListModel)
+  },
   computed: {
-    source() {
-      return this.$store.getters["folders/getById"](this.sourceId)
+    source: function() {
+      return this.$store.getters["sources/getById"](this.sourceId)
     },
     ...mapGetters({
         tags: "sources/tags",

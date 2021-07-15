@@ -65,7 +65,7 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.sources.SourceWithMeta = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.sources.SourceWithMeta.repeatedFields_, null);
 };
 goog.inherits(proto.sources.SourceWithMeta, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -513,6 +513,13 @@ proto.sources.GetSourcesListRequest.serializeBinaryToWriter = function(message, 
 
 
 
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.sources.SourceWithMeta.repeatedFields_ = [3];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -544,14 +551,9 @@ proto.sources.SourceWithMeta.prototype.toObject = function(opt_includeInstance) 
  */
 proto.sources.SourceWithMeta.toObject = function(includeInstance, msg) {
   var f, obj = {
-    id: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    name: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    origin: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    kind: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    image: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    lastScrapeTime: jspb.Message.getFieldWithDefault(msg, 6, 0),
-    externalLink: jspb.Message.getFieldWithDefault(msg, 7, ""),
-    folderId: jspb.Message.getFieldWithDefault(msg, 8, 0)
+    source: (f = msg.getSource()) && proto.sources.Source.toObject(includeInstance, f),
+    folderId: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    tagsList: (f = jspb.Message.getRepeatedField(msg, 3)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -589,36 +591,17 @@ proto.sources.SourceWithMeta.deserializeBinaryFromReader = function(msg, reader)
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setId(value);
+      var value = new proto.sources.Source;
+      reader.readMessage(value,proto.sources.Source.deserializeBinaryFromReader);
+      msg.setSource(value);
       break;
     case 2:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setName(value);
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setFolderId(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setOrigin(value);
-      break;
-    case 4:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setKind(value);
-      break;
-    case 5:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setImage(value);
-      break;
-    case 6:
-      var value = /** @type {number} */ (reader.readInt64());
-      msg.setLastScrapeTime(value);
-      break;
-    case 7:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setExternalLink(value);
-      break;
-    case 8:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setFolderId(value);
+      msg.addTags(value);
       break;
     default:
       reader.skipField();
@@ -649,59 +632,25 @@ proto.sources.SourceWithMeta.prototype.serializeBinary = function() {
  */
 proto.sources.SourceWithMeta.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getId();
-  if (f !== 0) {
-    writer.writeInt32(
+  f = message.getSource();
+  if (f != null) {
+    writer.writeMessage(
       1,
-      f
-    );
-  }
-  f = message.getName();
-  if (f.length > 0) {
-    writer.writeString(
-      2,
-      f
-    );
-  }
-  f = message.getOrigin();
-  if (f.length > 0) {
-    writer.writeString(
-      3,
-      f
-    );
-  }
-  f = message.getKind();
-  if (f.length > 0) {
-    writer.writeString(
-      4,
-      f
-    );
-  }
-  f = message.getImage();
-  if (f.length > 0) {
-    writer.writeString(
-      5,
-      f
-    );
-  }
-  f = message.getLastScrapeTime();
-  if (f !== 0) {
-    writer.writeInt64(
-      6,
-      f
-    );
-  }
-  f = message.getExternalLink();
-  if (f.length > 0) {
-    writer.writeString(
-      7,
-      f
+      f,
+      proto.sources.Source.serializeBinaryToWriter
     );
   }
   f = message.getFolderId();
   if (f !== 0) {
     writer.writeInt32(
-      8,
+      2,
+      f
+    );
+  }
+  f = message.getTagsList();
+  if (f.length > 0) {
+    writer.writeRepeatedString(
+      3,
       f
     );
   }
@@ -709,137 +658,48 @@ proto.sources.SourceWithMeta.serializeBinaryToWriter = function(message, writer)
 
 
 /**
- * optional int32 id = 1;
- * @return {number}
+ * optional Source source = 1;
+ * @return {?proto.sources.Source}
  */
-proto.sources.SourceWithMeta.prototype.getId = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+proto.sources.SourceWithMeta.prototype.getSource = function() {
+  return /** @type{?proto.sources.Source} */ (
+    jspb.Message.getWrapperField(this, proto.sources.Source, 1));
 };
 
 
 /**
- * @param {number} value
+ * @param {?proto.sources.Source|undefined} value
+ * @return {!proto.sources.SourceWithMeta} returns this
+*/
+proto.sources.SourceWithMeta.prototype.setSource = function(value) {
+  return jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
  * @return {!proto.sources.SourceWithMeta} returns this
  */
-proto.sources.SourceWithMeta.prototype.setId = function(value) {
-  return jspb.Message.setProto3IntField(this, 1, value);
+proto.sources.SourceWithMeta.prototype.clearSource = function() {
+  return this.setSource(undefined);
 };
 
 
 /**
- * optional string name = 2;
- * @return {string}
+ * Returns whether this field is set.
+ * @return {boolean}
  */
-proto.sources.SourceWithMeta.prototype.getName = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+proto.sources.SourceWithMeta.prototype.hasSource = function() {
+  return jspb.Message.getField(this, 1) != null;
 };
 
 
 /**
- * @param {string} value
- * @return {!proto.sources.SourceWithMeta} returns this
- */
-proto.sources.SourceWithMeta.prototype.setName = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
-};
-
-
-/**
- * optional string origin = 3;
- * @return {string}
- */
-proto.sources.SourceWithMeta.prototype.getOrigin = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.sources.SourceWithMeta} returns this
- */
-proto.sources.SourceWithMeta.prototype.setOrigin = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
-};
-
-
-/**
- * optional string kind = 4;
- * @return {string}
- */
-proto.sources.SourceWithMeta.prototype.getKind = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.sources.SourceWithMeta} returns this
- */
-proto.sources.SourceWithMeta.prototype.setKind = function(value) {
-  return jspb.Message.setProto3StringField(this, 4, value);
-};
-
-
-/**
- * optional string image = 5;
- * @return {string}
- */
-proto.sources.SourceWithMeta.prototype.getImage = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.sources.SourceWithMeta} returns this
- */
-proto.sources.SourceWithMeta.prototype.setImage = function(value) {
-  return jspb.Message.setProto3StringField(this, 5, value);
-};
-
-
-/**
- * optional int64 last_scrape_time = 6;
- * @return {number}
- */
-proto.sources.SourceWithMeta.prototype.getLastScrapeTime = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.sources.SourceWithMeta} returns this
- */
-proto.sources.SourceWithMeta.prototype.setLastScrapeTime = function(value) {
-  return jspb.Message.setProto3IntField(this, 6, value);
-};
-
-
-/**
- * optional string external_link = 7;
- * @return {string}
- */
-proto.sources.SourceWithMeta.prototype.getExternalLink = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.sources.SourceWithMeta} returns this
- */
-proto.sources.SourceWithMeta.prototype.setExternalLink = function(value) {
-  return jspb.Message.setProto3StringField(this, 7, value);
-};
-
-
-/**
- * optional int32 folder_id = 8;
+ * optional int32 folder_id = 2;
  * @return {number}
  */
 proto.sources.SourceWithMeta.prototype.getFolderId = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
@@ -848,7 +708,44 @@ proto.sources.SourceWithMeta.prototype.getFolderId = function() {
  * @return {!proto.sources.SourceWithMeta} returns this
  */
 proto.sources.SourceWithMeta.prototype.setFolderId = function(value) {
-  return jspb.Message.setProto3IntField(this, 8, value);
+  return jspb.Message.setProto3IntField(this, 2, value);
+};
+
+
+/**
+ * repeated string tags = 3;
+ * @return {!Array<string>}
+ */
+proto.sources.SourceWithMeta.prototype.getTagsList = function() {
+  return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 3));
+};
+
+
+/**
+ * @param {!Array<string>} value
+ * @return {!proto.sources.SourceWithMeta} returns this
+ */
+proto.sources.SourceWithMeta.prototype.setTagsList = function(value) {
+  return jspb.Message.setField(this, 3, value || []);
+};
+
+
+/**
+ * @param {string} value
+ * @param {number=} opt_index
+ * @return {!proto.sources.SourceWithMeta} returns this
+ */
+proto.sources.SourceWithMeta.prototype.addTags = function(value, opt_index) {
+  return jspb.Message.addToRepeatedField(this, 3, value, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.sources.SourceWithMeta} returns this
+ */
+proto.sources.SourceWithMeta.prototype.clearTagsList = function() {
+  return this.setTagsList([]);
 };
 
 

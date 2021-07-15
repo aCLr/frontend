@@ -12,9 +12,9 @@ const getters = {
 
 
 const actions = {
-    register({commit}, {login, password}) {
+    register({commit}, {username, password}) {
         return new Promise((resolve, reject) => {
-            authApi.register(login, password).then(resp => {
+            authApi.register(username, password).then(resp => {
                 const user = resp.getUser();
                 const token = user.getToken();
                 localStorage.setItem(tokenKey, token)
@@ -28,9 +28,9 @@ const actions = {
     logout({commit}) {
         commit("logout")
     },
-    login({commit}, {login, password}) {
+    login({commit}, {username, password}) {
         return new Promise((resolve, reject) => { // The Promise used for router redirect in login
-            authApi.login(login, password).then(resp => {
+            authApi.login(username, password).then(resp => {
                 const user = resp.getUser()
                 const token = user.getToken();
                 localStorage.setItem(tokenKey, token)

@@ -80,11 +80,7 @@ export default {
       this.query = "";
     },
     showSourceContentPreview(source) {
-      this.$store.dispatch("records/loadRecords", {
-        sourceId: source.id,
-        replace: true,
-        preview: true
-      });
+      this.$store.dispatch("records/loadRecordsPreview", source.id);
       let route = "sourcePreview";
       if (
         this.$store.state.sources.sources.findIndex(f => f.id === source.id) >=

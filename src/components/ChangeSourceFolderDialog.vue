@@ -28,12 +28,14 @@
 
 <script>
 
+import {Folder} from "../models";
+
 export default {
   name: "ChangeSourceFolderDialog",
   props: {value: Boolean, sourceId: Number},
   computed: {
     folders() {
-      let tree = []
+      let tree = [new Folder(0, "[Move to top]", 0)]
       let folders = {}
       this.$store.state.folders.folders.forEach((f) => folders[f.id] = Object.assign({
         children: [],

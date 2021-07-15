@@ -77,11 +77,14 @@ export default {
     showFab: false
   }),
   beforeRouteEnter(to, from, next) {
-    next(vm =>
+    next(vm => {
+      vm.$store.dispatch("records/setQuery", to.params.query);
       vm.$store.dispatch("records/loadRecords", { replace: true, ...to.params })
+    }
     );
   },
   beforeRouteUpdate(to, from, next) {
+    this.$store.dispatch("records/setQuery", to.params.query);
     this.$store
       .dispatch("records/loadRecords", { replace: true, ...to.params })
       .then(next);

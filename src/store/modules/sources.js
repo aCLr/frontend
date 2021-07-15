@@ -54,7 +54,7 @@ const mutations = {
 };
 const actions = {
   async loadSources({ commit }) {
-    let response = (await sourcesApi.loadSources()).getSourcesList().map(SourceWithMeta.fromPb);
+    let response = (await sourcesApi.loadSources()).getSourcesList().map(s => new SourceWithMeta(s));
     commit("setSources", response);
     return response
   },
@@ -68,7 +68,7 @@ const actions = {
   async searchSources({ commit }, query) {
     commit("startSearch");
     const response = await sourcesApi.search(query);
-    commit("finishSearch", response.getSourcesList().map(Source.fromPb));
+    commit("finishSearch", response.getSourcesList().map(s => new Source(s)));
   },
 
   async subscribe({ dispatch }, sourceId) {
@@ -78,7 +78,8 @@ const actions = {
   },
 
   async loadSource({ commit }, sourceId) {
-    let source = SourceWithMeta.fromPb((await sourcesApi.getById(sourceId)).getSource());
+    let sourceResponse = await sourcesApi.getById(sourceId);
+    let source = new SourceWithMeta(sourceResponse.getSource());
     commit("replaceSource", source)
   },
 
