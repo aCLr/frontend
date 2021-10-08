@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Sign in</h1>
+    <h1>Login</h1>
     <v-form v-model="valid" @submit="login">
       <v-text-field v-model="username" label="Login" required></v-text-field>
       <v-text-field v-model="password" label="Password" type="password" required></v-text-field>

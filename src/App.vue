@@ -59,6 +59,7 @@ export default {
     }
   },
   mounted() {
+    if (!this.isAuthenticated) return
     this.loadFolders().then(() => {this.loading -= 1})
     this.loadSources().then(() => {this.loading -= 1})
   }

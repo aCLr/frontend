@@ -23,7 +23,7 @@ export default new VueRouter({
       path: "/preview/:sourceId",
       name: "sourcePreview",
       component: () => import("@/components/SourcePreview.vue"),
-      props: true
+      props: (route) => {return {sourceId: Number(route.params.sourceId)}}
     }
   ]
 });

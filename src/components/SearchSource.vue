@@ -53,7 +53,7 @@ export default {
   computed: {
     ...mapState({
       searching: state => state.sources.searching,
-      search_results: state => state.sources.search_results
+      search_results: state => state.sources.searchResults
     }),
     colsAmount() {
       switch (this.$vuetify.breakpoint.name) {

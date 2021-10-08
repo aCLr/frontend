@@ -7,7 +7,7 @@ const state = {
   tags: [],
   selectedTags: [],
   searching: false,
-  search_results: []
+  searchResults: [],
 };
 const getters = {
   getById: (state) => (id) => {
@@ -48,7 +48,7 @@ const mutations = {
   },
 
   finishSearch(state, payload) {
-    state.search_results = payload;
+    state.searchResults = payload;
     state.searching = false;
   }
 };

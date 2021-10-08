@@ -60,11 +60,6 @@
     >
       <v-icon>mdi-arrow-up</v-icon>
     </v-btn>
-    <div
-      v-intersect="{
-        handler: onBottomVisible
-      }"
-    ></div>
   </v-container>
 </template>
 
@@ -72,13 +67,11 @@
 import DOMPurify from "dompurify";
 import { mapState } from "vuex";
 
-const limit = 12;
-
 export default {
   name: "SourcePreview",
   props: {
     sourceId: {
-      type: String,
+      type: Number,
       required: true
     }
   },
@@ -88,13 +81,13 @@ export default {
   computed: {
     ...mapState({
       records: state => state.records.records,
-      enableInfiniteScroll: state => state.records.enableInfiniteScroll
+      enableInfiniteScroll: state => state.records.enableInfiniteScroll,
     }),
     source() {
-      let f = this.$store.state.sources.search_results.find(
+      let l = this.$store.state.sources.searchResults.find(
         s => s.id === this.sourceId
-      );
-      return f;
+      )
+      return l
     },
     colsAmount() {
       switch (this.$vuetify.breakpoint.name) {
@@ -149,13 +142,6 @@ export default {
         e.setAttribute("target", "_blank");
       });
       return div.innerHTML;
-    },
-    onBottomVisible() {
-      if (!this.enableInfiniteScroll) {
-        return;
-      }
-      this.offset += limit;
-      this.$store.dispatch("records/loadRecords", {});
     },
     toggleStarred(record) {
       this.$store.dispatch("records/toggleStarred", {
